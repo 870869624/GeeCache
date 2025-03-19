@@ -2,6 +2,7 @@ package geecache
 
 import (
 	"GeeCache/lru"
+	"fmt"
 	"sync"
 )
 
@@ -29,5 +30,6 @@ func (c *cache) get(key string) (value ByteView, ok bool) {
 	if v, ok := c.lru.Get(key); ok {
 		return v.(ByteView), ok
 	}
+	fmt.Println("本地节点cache miss")
 	return
 }

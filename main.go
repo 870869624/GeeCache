@@ -37,6 +37,7 @@ func startAPIServer(apiAddr string, gee *geecache.Group) {
 	http.Handle("/api", http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			key := r.URL.Query().Get("key")
+			fmt.Println("key", key)
 			view, err := gee.Get(key)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -48,7 +49,6 @@ func startAPIServer(apiAddr string, gee *geecache.Group) {
 		}))
 	log.Println("fontend server is running at", apiAddr)
 	log.Fatal(http.ListenAndServe(apiAddr[7:], nil))
-
 }
 
 func main() {

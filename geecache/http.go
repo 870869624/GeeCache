@@ -13,9 +13,10 @@ import (
 
 const (
 	defaultBasePath = "/_geecache/"
-	defaultReplicas = 50
+	defaultReplicas = 1 //hash环里面的倍数
 )
 
+// 承载节点间 HTTP 通信的核心数据结构（包括服务端和客户端，今天只实现服务端）
 type HTTPPool struct {
 	self        string //用来记录自己的地址，包括主机名/IP 和端口
 	basePath    string //作为节点间通讯地址的前缀，默认是 /_geecache/
@@ -27,7 +28,7 @@ type HTTPPool struct {
 func NewHTTPPool(self string) *HTTPPool {
 	return &HTTPPool{
 		self:     self,
-		basePath: defaultBasePath, //hash环里面的倍数
+		basePath: defaultBasePath,
 	}
 }
 
