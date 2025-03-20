@@ -30,6 +30,9 @@ func startCacheServer(addr string, addrs []string, gee *geecache.Group) {
 	peers.Set(addrs...)
 	gee.RegisterPeers(peers)
 	log.Println("geecache is running at", addr)
+	// if addr == "http://localhost:8003" {
+	// 	gee.Set("Tom", "630")
+	// }
 	log.Fatal(http.ListenAndServe(addr[7:], peers))
 }
 
@@ -37,13 +40,13 @@ func startAPIServer(apiAddr string, gee *geecache.Group) {
 	http.Handle("/api", http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			key := r.URL.Query().Get("key")
-			fmt.Println("key", key)
 			view, err := gee.Get(key)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 			w.Header().Set("Content-Type", "application/octet-stream")
+			fmt.Println("从节点获取", gee)
 			w.Write(view.ByteSlice())
 
 		}))
@@ -74,5 +77,6 @@ func main() {
 	if api {
 		go startAPIServer(apiAddr, gee)
 	}
+	//port用作self节点的标识
 	startCacheServer(addrMap[port], []string(addrs), gee)
 }

@@ -22,6 +22,7 @@ func (c *cache) add(key string, value ByteView) {
 }
 
 func (c *cache) get(key string) (value ByteView, ok bool) {
+	fmt.Println("从本地获取", c.lru)
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if c.lru == nil {

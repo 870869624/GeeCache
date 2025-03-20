@@ -33,7 +33,6 @@ func (m *Map) Add(keys ...string) {
 			hash := int(m.hash([]byte(fmt.Sprintf("%d%s", i, key))))
 			m.keys = append(m.keys, hash) //讲节点添加到哈希环中
 			m.hashMap[hash] = key         //添加虚拟节点与真实节点的映射关系
-			fmt.Println(m.keys, m.hashMap, "-------")
 		}
 	}
 
@@ -50,6 +49,6 @@ func (m *Map) Get(key string) string {
 	idx := sort.Search(len(m.keys), func(i int) bool {
 		return m.keys[i] >= hash
 	})
-
+	fmt.Println("tom的hash值", hash, "所有的key", m.keys, "所选择的节点", m.hashMap[m.keys[idx%len(m.keys)]], "idx", idx, "idx%len(m.keys)", idx%len(m.keys))
 	return m.hashMap[m.keys[idx%len(m.keys)]]
 }

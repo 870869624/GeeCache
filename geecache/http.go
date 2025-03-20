@@ -13,7 +13,7 @@ import (
 
 const (
 	defaultBasePath = "/_geecache/"
-	defaultReplicas = 1 //hash环里面的倍数
+	defaultReplicas = 50 //hash环里面的倍数
 )
 
 // 承载节点间 HTTP 通信的核心数据结构（包括服务端和客户端，今天只实现服务端）
@@ -79,7 +79,7 @@ func (p *HTTPPool) Set(peers ...string) {
 	p.httpGetters = make(map[string]*httpGetter, len(peers))
 
 	for _, peer := range peers {
-		p.httpGetters[peer] = &httpGetter{baseUrl: peer + p.basePath}
+		p.httpGetters[peer] = &httpGetter{baseUrl: peer + p.basePath} //对应的远端节点获取路径生成
 	}
 }
 
